@@ -1,0 +1,11 @@
+<div class = "input-conainer">
+    <label for="customInput">{{ label }}</label>
+    <input
+        id="customInput"
+        [type]="type"
+        [placeholder]="placeHolder"
+        [value]="value"
+        (input)="onInputChange($event)"
+        (blur)="onTouched()"
+    >
+</div>
