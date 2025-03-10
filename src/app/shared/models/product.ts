@@ -2,7 +2,7 @@ export interface Product {
     id?: number;
     serialNumber: string;
     name: string;
-    desc: string;
+    description: string;
     price: number;
-    quantity: number;
+    currentStock: number;
 }

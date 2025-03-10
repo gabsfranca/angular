@@ -1,31 +1,56 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 import { InputComponent } from '../../input/input.component';
 import { Product } from '../../../shared/models/product';
-import { NgModel } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import { ProductsService } from '../../../shared/services/products.service';
+
 
 @Component({
   selector: 'app-product-register',
-  imports: [InputComponent, FormsModule],
+  standalone: true,
+  imports: [InputComponent, FormsModule, CommonModule],
   templateUrl: './product-register.component.html',
   styleUrl: './product-register.component.css'
 })
 export class ProductRegisterComponent {
-  product: Partial<Product> = {
+  product: Product = {
       serialNumber: '',
       name: '',
-      desc: '',
+      description: '',
       price: 0, 
-      quantity: 0
+      currentStock: 0
     };
 
-  onSubmit() {
-    this.product['serialNumber'] = this.product.serialNumber;
-    this.product['name'] = this.product.name;
-    this.product['desc'] = this.product.desc;
-    this.product['price'] = this.product.price;
+  constructor(private productsService: ProductsService) { }
 
-    console.log('produto cadastrado: ', this.product);
+  onSubmit() {
+    this.product.price = Number(this.product.price)
+
+    const productToSend: Partial<Product> = {...this.product}
+    delete productToSend.id;
+    
+    this.productsService.createProduct(productToSend as Product).subscribe({
+      next: (createdProduct) => {
+        console.log('Produto criado!!! ', createdProduct);
+        this.resetForm();
+      },
+      error: (error) => {
+        console.error('erro criando produto: ', error);
+        console.log('produto: ', this.product)
+      }
+    });
+  }
+
+  resetForm() {
+    this.product = {
+      serialNumber: '',
+      name: '',
+      description: '', 
+      price: 0,
+      currentStock: 0
+    };
   }
 }
 
