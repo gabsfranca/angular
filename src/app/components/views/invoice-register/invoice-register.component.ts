@@ -98,7 +98,6 @@ export class InvoiceRegisterComponent implements OnInit {
       price: product.price,
       quantity: 1,
       discount: 0,
-      productId: product.id
     };
     
     this.invoice.products.push(newItem);
@@ -145,7 +144,28 @@ export class InvoiceRegisterComponent implements OnInit {
     if (!this.isFormValid()) {
       return;
     }
-    
-    console.log('Nota fiscal a ser registrada:', this.invoice);
+    try {
+      console.log('mandando... ', this.invoice)
+      this.invoiceService.createInvoice(this.invoice).subscribe({
+        next: (createdInvoice) => {
+          console.log('nota fiscal criada: ', createdInvoice);
+          this.resetForm();
+        },
+        error: (error) => {
+          console.error('erro criando nf: ', error);
+          console.log('nf: ', this.invoice);
+        }
+      })
+    }
+    catch(e) {
+      console.error('erro ao enviar nf: ', e)
+    }
+  }
+  resetForm() {
+    this.invoice = {
+      nf: '',
+      products: [],
+      type: 'OUT'
+    };
   }
 }

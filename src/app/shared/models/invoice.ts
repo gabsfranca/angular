@@ -1,6 +1,7 @@
 export interface Invoice {
     nf: string;
     products: InvoiceItem[];
+    status?: string;
     type: 'IN' | 'OUT';
 }
 
@@ -10,5 +11,4 @@ export interface InvoiceItem {
     price: number;
     quantity: number;
     discount: number;
-    productId?: number;
 }
