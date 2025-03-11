@@ -1,0 +1,46 @@
+.product-register-container {
+    max-width: 400px; /* Reduz a largura para um formato mais vertical */
+    margin: 0 auto;
+    padding: 20px;
+    color: #EDF4F7;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo */
+}
+
+#title{
+    color: #294355;
+}
+
+.product-form {
+    background-color: #294355;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os inputs */
+}
+
+.product-form app-input {
+    width: 100%;
+    margin-bottom: 15px; /* Maior espaçamento entre inputs */
+}
+
+button {
+    background-color: #F4064A;
+    color: #EDF4F7;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    width: 100%; /* Faz o botão ocupar toda a largura */
+    text-align: center;
+}
+
+button:hover {
+    background-color: #d1043f;
+}

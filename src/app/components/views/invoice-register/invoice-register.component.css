@@ -1,0 +1,206 @@
+#title{
+  color: #1a2a36;
+}
+
+
+.invoice-register-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #EDF4F7;
+  }
+
+
+  
+  h2, h3 {
+    color: #EDF4F7;
+    margin-bottom: 20px;
+  }
+  
+  .invoice-form {
+    background-color: #294355;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Estilo para a seleção do tipo de NF */
+  .invoice-type {
+    margin: 15px 0;
+  }
+  
+  .invoice-type label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #EDF4F7;
+  }
+  
+  .radio-group {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal;
+    color: #EDF4F7;
+  }
+  
+  .radio-group input[type="radio"] {
+    margin-right: 5px;
+  }
+  
+  .btn-show-products {
+    background-color: #F4064A;
+    color: #EDF4F7;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 20px 0;
+    font-size: 16px;
+    margin-right: 15px
+  }
+  
+  
+
+  .btn-show-products:hover {
+    background-color: #d1043f;
+  }
+  
+  .products-list, .selected-products {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: rgba(237, 244, 247, 0.1);
+  }
+  
+  th, td {
+    border: 1px solid #1a2a36;
+    padding: 10px;
+    text-align: left;
+    color: #EDF4F7;
+  }
+  
+  th {
+    background-color: #1a2a36;
+    font-weight: bold;
+  }
+  
+  tr:nth-child(even) {
+    background-color: rgba(237, 244, 247, 0.05);
+  }
+  
+  .no-products {
+    padding: 20px;
+    text-align: center;
+    color: #EDF4F7;
+    font-style: italic;
+  }
+  
+  button {
+    background-color: #F4064A;
+    color: #EDF4F7;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #d1043f;
+  }
+  
+  button:disabled {
+    background-color: #763344;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  button.btn-remove {
+    background-color: #F4064A;
+  }
+  
+  button.btn-remove:hover {
+    background-color: #d1043f;
+  }
+  
+  button[type="button"].btn-register {
+    background-color: #F4064A;
+    padding: 12px 20px;
+    font-size: 16px;
+    margin-top: 20px;
+    gap: 15px;
+  }
+  
+  button[type="button"].btn-register:hover {
+    background-color: #d1043f;
+  }
+  
+  .invoice-summary {
+    margin-top: 20px;
+    border-top: 2px solid #1a2a36;
+    padding-top: 10px;
+  }
+  
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    padding: 10px;
+    color: #EDF4F7;
+  }
+  
+  input[type="number"], input[type="text"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #1a2a36;
+    border-radius: 4px;
+    background-color: #36546b;
+    color: #EDF4F7;
+  }
+  
+  input[type="text"] {
+    width: auto;
+  }
+  
+  .search-container {
+    margin-bottom: 15px;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  /* Estilo para o componente de input */
+  ::ng-deep .input-conainer label {
+    color: #EDF4F7;
+  }
+  
+  ::ng-deep .input-conainer input {
+    background-color: #36546b;
+    color: #EDF4F7;
+    border: 1px solid #1a2a36;
+    padding: 8px;
+    border-radius: 4px;
+  }
+  
+  ::ng-deep .input-conainer input::placeholder {
+    color: rgba(237, 244, 247, 0.6);
+  }
+  
+  /* Ajuste para o fundo da página */
+  body {
+    background-color: #294355;
+    color: #EDF4F7;
+  }

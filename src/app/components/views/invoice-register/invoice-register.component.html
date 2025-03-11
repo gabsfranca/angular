@@ -1,0 +1,144 @@
+<div class="invoice-register-container">
+    <h2 id="title">Registro de Nota Fiscal</h2>
+    
+    <div class="invoice-form">
+      <app-input 
+        label="Número da NF: " 
+        type="text" 
+        placeHolder="Digite..."
+        [(ngModel)]="invoice.nf">
+      </app-input>
+      
+      <div class="invoice-type">
+        <label>Tipo de Nota Fiscal</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="invoiceType" [(ngModel)]="invoice.type" value="IN"> 
+            Entrada
+          </label>
+          <label>
+            <input type="radio" name="invoiceType" [(ngModel)]="invoice.type" value="OUT"> 
+            Saída
+          </label>
+        </div>
+      </div>
+      
+      <!-- Botão para mostrar produtos disponíveis -->
+      <button type="button" class="btn-show-products" (click)="loadProducts()">
+        Produtos Disponíveis
+      </button>
+
+      <button 
+        type="button" 
+        class="btn-show-products" 
+        (click)="navigateToProductRegister()">
+        Cadastrar Produto
+     </button>
+      
+      <!-- Lista de produtos disponíveis (visível quando showProductsList for true) -->
+      <div class="products-list" *ngIf="showProductsList">
+        <h3>Produtos Disponíveis</h3>
+        
+        <table *ngIf="availableProducts.length > 0">
+          <thead>
+            <tr>
+              <th>Serial Number</th>
+              <th>Nome</th>
+              <th>Preço</th>
+              <th>Estoque</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of filteredProducts">
+              <td>{{ product.serialNumber }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.price | currency:'BRL' }}</td>
+              <td>{{ product.currentStock }}</td>
+              <td>
+                <button 
+                  type="button" 
+                  (click)="addProductToInvoice(product)"
+                  [disabled]="isProductInInvoice(product)">
+                  Adicionar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div *ngIf="availableProducts.length === 0" class="no-products">
+          Nenhum produto disponível.
+        </div>
+      </div>
+      
+      <!-- Lista de produtos selecionados para a nota fiscal -->
+      <div class="selected-products">
+        <h3>Produtos da Nota Fiscal</h3>
+        <table *ngIf="invoice.products.length > 0">
+          <thead>
+            <tr>
+              <th>Serial Number</th>
+              <th>Nome</th>
+              <th>Preço Unit.</th>
+              <th>Quantidade</th>
+              <th>Desconto</th>
+              <th>Total</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of invoice.products; let i = index">
+              <td>{{ item.serialNumber }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.price | currency:'BRL' }}</td>
+              <td>
+                <input 
+                  type="number" 
+                  min="1" 
+                  [(ngModel)]="item.quantity" 
+                  (change)="calculateTotal()">
+              </td>
+              <td>
+                <input 
+                  type="number" 
+                  min="0" 
+                  max="100" 
+                  [(ngModel)]="item.discount" 
+                  (change)="calculateTotal()">%
+              </td>
+              <td>{{ getItemTotal(item) | currency:'BRL' }}</td>
+              <td>
+                <button type="button" class="btn-remove" (click)="removeProductFromInvoice(i)">
+                  Remover
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div *ngIf="invoice.products.length === 0" class="no-products">
+          Adicione um produto a nota fiscal.
+        </div>
+        
+        <!-- Resumo da nota fiscal -->
+        <div class="invoice-summary" *ngIf="invoice.products.length > 0">
+          <div class="total-row">
+            <strong>Total da Nota:</strong>
+            <span>{{ invoiceTotal | currency:'BRL' }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Botão para salvar/registrar a nota fiscal -->
+      <div class="actions">
+        <button 
+          type="button" 
+          class="btn-register" 
+          (click)="onSubmit()" 
+          [disabled]="!isFormValid()">
+          Registrar Nota Fiscal
+        </button>
+      </div>
+    </div>
+  </div>
