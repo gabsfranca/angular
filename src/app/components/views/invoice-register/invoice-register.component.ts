@@ -23,7 +23,7 @@ export class InvoiceRegisterComponent implements OnInit {
   
   invoiceItem: InvoiceItem = {
     serialNumber: '',
-    name: '', // Adicionamos o campo name aqui
+    name: '', 
     price: 0,
     quantity: 1,
     discount: 0
@@ -32,7 +32,7 @@ export class InvoiceRegisterComponent implements OnInit {
   invoice: Invoice = {
     nf: '',
     products: [],
-    type: 'OUT' // Definindo 'OUT' (saída) como valor padrão
+    type: 'OUT' 
   };
 
   constructor(
@@ -71,10 +71,9 @@ export class InvoiceRegisterComponent implements OnInit {
       return;
     }
     
-    // Criamos um novo item da nota baseado no produto
-    const newItem: InvoiceItem = {
+  const newItem: InvoiceItem = {
       serialNumber: product.serialNumber,
-      name: product.name, // Agora incluímos o nome do produto
+      name: product.name, 
       price: product.price,
       quantity: 1,
       discount: 0,
@@ -84,31 +83,26 @@ export class InvoiceRegisterComponent implements OnInit {
     this.calculateTotal();
   }
 
-  // Remove um produto da nota fiscal
   removeProductFromInvoice(index: number): void {
     this.invoice.products.splice(index, 1);
     this.calculateTotal();
   }
 
-  // Verifica se um produto já está na nota fiscal
   isProductInInvoice(product: Product): boolean {
     return this.invoice.products.some(item => item.serialNumber === product.serialNumber);
   }
 
-  // Calcula o total de um item específico
   getItemTotal(item: InvoiceItem): number {
     const discountMultiplier = (100 - (item.discount || 0)) / 100;
     return item.price * item.quantity * discountMultiplier;
   }
 
-  // Calcula o total da nota fiscal
   calculateTotal(): void {
     this.invoiceTotal = this.invoice.products.reduce((total, item) => {
       return total + this.getItemTotal(item);
     }, 0);
   }
 
-  // Verifica se o formulário é válido para submissão
   isFormValid(): boolean {
     return this.invoice.nf.trim() !== '' && 
            this.invoice.products.length > 0 && 
@@ -119,7 +113,6 @@ export class InvoiceRegisterComponent implements OnInit {
     this.router.navigate(['/register-product']);
   }
 
-  // Submete a nota fiscal
   onSubmit(): void {
     if (!this.isFormValid()) return;
 

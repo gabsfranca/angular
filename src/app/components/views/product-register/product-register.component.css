@@ -1,11 +1,11 @@
 .product-register-container {
-    max-width: 400px; /* Reduz a largura para um formato mais vertical */
+    max-width: 400px;
     margin: 0 auto;
     padding: 20px;
     color: #EDF4F7;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza o conteúdo */
+    align-items: center;
 }
 
 #title{
@@ -20,12 +20,12 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza os inputs */
+    align-items: center; 
 }
 
 .product-form app-input {
     width: 100%;
-    margin-bottom: 15px; /* Maior espaçamento entre inputs */
+    margin-bottom: 15px; 
 }
 
 button {
@@ -37,7 +37,7 @@ button {
     cursor: pointer;
     font-size: 16px;
     margin-top: 20px;
-    width: 100%; /* Faz o botão ocupar toda a largura */
+    width: 100%; 
     text-align: center;
 }
 

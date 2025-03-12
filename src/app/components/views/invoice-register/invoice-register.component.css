@@ -24,7 +24,6 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   }
   
-  /* Estilo para a seleção do tipo de NF */
   .invoice-type {
     margin: 15px 0;
   }
@@ -175,7 +174,6 @@
     margin-top: 20px;
   }
   
-  /* Estilo para o componente de input */
   ::ng-deep .input-conainer label {
     color: #EDF4F7;
   }
@@ -192,7 +190,7 @@
     color: rgba(237, 244, 247, 0.6);
   }
   
-  /* Ajuste para o fundo da página */
+
   body {
     background-color: #294355;
     color: #EDF4F7;

@@ -23,7 +23,6 @@
         </div>
       </div>
       
-      <!-- Botão para mostrar produtos disponíveis -->
       <button type="button" class="btn-show-products" (click)="loadProducts()">
         Produtos Cadastrados
       </button>
@@ -35,7 +34,6 @@
         Cadastrar Produto
      </button>
       
-      <!-- Lista de produtos disponíveis (visível quando showProductsList for true) -->
       <div class="products-list" *ngIf="showProductsList">
         <h3>Produtos Cadastrados</h3>
         
@@ -72,7 +70,6 @@
         </div>
       </div>
       
-      <!-- Lista de produtos selecionados para a nota fiscal -->
       <div class="selected-products">
         <h3>Produtos da Nota Fiscal</h3>
         <table *ngIf="invoice.products.length > 0">
@@ -121,7 +118,6 @@
           Adicione um produto a nota fiscal.
         </div>
         
-        <!-- Resumo da nota fiscal -->
         <div class="invoice-summary" *ngIf="invoice.products.length > 0">
           <div class="total-row">
             <strong>Total da Nota:</strong>
@@ -130,7 +126,6 @@
         </div>
       </div>
       
-      <!-- Botão para salvar/registrar a nota fiscal -->
       <div class="actions">
         <button 
           type="button" 
