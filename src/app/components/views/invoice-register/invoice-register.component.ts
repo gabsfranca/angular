@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { InputComponent } from '../../input/input.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -17,19 +17,10 @@ import { Router } from '@angular/router';
   styleUrl: './invoice-register.component.css'
 })
 export class InvoiceRegisterComponent implements OnInit {
-  // Controla a exibição da lista de produtos
   showProductsList: boolean = false;
-  
-  // Termo de busca para filtrar produtos
-  searchTerm: string = '';
-  
-  // Lista de produtos disponíveis
   availableProducts: Product[] = [];
-  
-  // Total da nota fiscal
   invoiceTotal: number = 0;
   
-  // Modelo de item da nota
   invoiceItem: InvoiceItem = {
     serialNumber: '',
     name: '', // Adicionamos o campo name aqui
@@ -38,7 +29,6 @@ export class InvoiceRegisterComponent implements OnInit {
     discount: 0
   };
 
-  // Modelo da nota fiscal - Agora incluindo o tipo
   invoice: Invoice = {
     nf: '',
     products: [],
@@ -48,11 +38,17 @@ export class InvoiceRegisterComponent implements OnInit {
   constructor(
     private invoiceService: InvoiceService,
     private productsService: ProductsService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.productsService.reloadProducts();
 
+    this.productsService.product$.subscribe(products => {
+      this.availableProducts = products;
+      this.cdr.detectChanges();
+    });
   }
 
   loadProducts(): void {
@@ -70,23 +66,7 @@ export class InvoiceRegisterComponent implements OnInit {
     }
   }
 
-  // Filtra produtos baseado no termo de busca
-  get filteredProducts(): Product[] {
-    if (!this.searchTerm) {
-      return this.availableProducts;
-    }
-    
-    const term = this.searchTerm.toLowerCase();
-    return this.availableProducts.filter(product => 
-      product.name.toLowerCase().includes(term) || 
-      product.serialNumber.toLowerCase().includes(term) ||
-      product.description.toLowerCase().includes(term)
-    );
-  }
-
-  // Adiciona um produto à nota fiscal
   addProductToInvoice(product: Product): void {
-    // Verificar se já temos este produto na nota
     if (this.isProductInInvoice(product)) {
       return;
     }
@@ -141,17 +121,24 @@ export class InvoiceRegisterComponent implements OnInit {
 
   // Submete a nota fiscal
   onSubmit(): void {
-    if (!this.isFormValid()) {
-      return;
-    }
+    if (!this.isFormValid()) return;
+
     try {
       console.log('mandando... ', this.invoice)
+
       this.invoiceService.createInvoice(this.invoice).subscribe({
         next: (createdInvoice) => {
           console.log('nota fiscal criada: ', createdInvoice);
+          alert(`Nota fiscal criada com sucesso!!\nStatus: ${createdInvoice.status}`)
           this.resetForm();
+          this.productsService.reloadProducts();
         },
         error: (error) => {
+          let errorMsg = `Erro ao criar nota fiscal, tente novamente...\nStatus: ${this.invoice.status}`
+          if (error.error && error.error.includes('estoque insuficiente')) {
+            errorMsg = 'Estoque insuficiente para realizar a transação';
+          }
+          alert(errorMsg)
           console.error('erro criando nf: ', error);
           console.log('nf: ', this.invoice);
         }

@@ -25,7 +25,7 @@
       
       <!-- Botão para mostrar produtos disponíveis -->
       <button type="button" class="btn-show-products" (click)="loadProducts()">
-        Produtos Disponíveis
+        Produtos Cadastrados
       </button>
 
       <button 
@@ -37,7 +37,7 @@
       
       <!-- Lista de produtos disponíveis (visível quando showProductsList for true) -->
       <div class="products-list" *ngIf="showProductsList">
-        <h3>Produtos Disponíveis</h3>
+        <h3>Produtos Cadastrados</h3>
         
         <table *ngIf="availableProducts.length > 0">
           <thead>
@@ -50,7 +50,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let product of filteredProducts">
+            <tr *ngFor="let product of availableProducts">
               <td>{{ product.serialNumber }}</td>
               <td>{{ product.name }}</td>
               <td>{{ product.price | currency:'BRL' }}</td>

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, forwardRef, Input, input, Output } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
@@ -19,7 +19,7 @@ export class InputComponent implements ControlValueAccessor{
 
   @Input() label: string = 'digite algo';
   @Input() type: string = 'text';
-  @Input() placeHolder: string ='digite aqui...';
+  @Input() placeHolder: string ='digite...';
 
   value: string | number = '';
 

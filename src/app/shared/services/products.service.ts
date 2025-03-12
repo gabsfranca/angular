@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../models';
 
 @Injectable({
@@ -8,6 +8,8 @@ import { Product } from '../models';
 })
 export class ProductsService {
   private apiUrl = 'http://localhost:8080';
+  private productsSubject = new BehaviorSubject<Product[]>([]);
+  product$ = this.productsSubject.asObservable()
 
   constructor(private http: HttpClient) { }
 
@@ -26,6 +28,13 @@ export class ProductsService {
 
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  reloadProducts(): void {
+    this.http.get<Product[]>(`${this.apiUrl}/products`).subscribe({
+      next: (products) => this.productsSubject.next(products),
+      error: (error) => console.error('erro ao carregart produtos: ', error)
+    });
   }
 
 }

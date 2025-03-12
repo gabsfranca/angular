@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { InputComponent } from '../../input/input.component';
 import { Product } from '../../../shared/models/product';
@@ -23,7 +24,10 @@ export class ProductRegisterComponent {
       currentStock: 0
     };
 
-  constructor(private productsService: ProductsService) { }
+  constructor(
+    private productsService: ProductsService,
+    private router: Router
+  ) { }
 
   onSubmit() {
     this.product.price = Number(this.product.price)
@@ -33,11 +37,13 @@ export class ProductRegisterComponent {
     
     this.productsService.createProduct(productToSend as Product).subscribe({
       next: (createdProduct) => {
-        console.log('Produto criado!!! ', createdProduct);
+        alert('Produto criado!!! ');
+        console.log('produto criado: ', createdProduct);
         this.resetForm();
+        this.navigateToInvoiceRegister();
       },
       error: (error) => {
-        console.error('erro criando produto: ', error);
+        alert(`erro criando produto: ${error}`);
         console.log('produto: ', this.product)
       }
     });
@@ -52,6 +58,11 @@ export class ProductRegisterComponent {
       currentStock: 0
     };
   }
+
+  navigateToInvoiceRegister(): void {
+    this.router.navigate(['/register-invoice']);
+  }
+
 }
 
 
