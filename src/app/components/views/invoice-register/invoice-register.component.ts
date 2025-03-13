@@ -6,41 +6,29 @@ import { Invoice, InvoiceItem } from '../../../shared/models/invoice';
 import { InvoiceService } from '../../../shared/services/invoice.service';
 import { ProductsService } from '../../../shared/services/products.service';
 import { Product } from '../../../shared/models/product';
-import { ProductRegisterComponent } from "../product-register/product-register.component";
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-invoice-register',
   standalone: true,
-  imports: [InputComponent, FormsModule, CommonModule, ProductRegisterComponent],
+  imports: [InputComponent, FormsModule, CommonModule],
   templateUrl: './invoice-register.component.html',
-  styleUrl: './invoice-register.component.css'
+  styleUrls: ['./invoice-register.component.css']
 })
 export class InvoiceRegisterComponent implements OnInit {
   showProductsList: boolean = false;
   availableProducts: Product[] = [];
   invoiceTotal: number = 0;
-  
-  invoiceItem: InvoiceItem = {
-    serialNumber: '',
-    name: '', 
-    price: 0,
-    quantity: 1,
-    discount: 0
-  };
-
-  invoice: Invoice = {
-    nf: '',
-    products: [],
-    type: 'OUT' 
-  };
+  invoice: Invoice;
 
   constructor(
     private invoiceService: InvoiceService,
     private productsService: ProductsService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {
+    this.invoice = this.invoiceService.getDefaultInvoice();
+   }
 
   ngOnInit(): void {
     this.productsService.reloadProducts();
@@ -67,46 +55,29 @@ export class InvoiceRegisterComponent implements OnInit {
   }
 
   addProductToInvoice(product: Product): void {
-    if (this.isProductInInvoice(product)) {
-      return;
-    }
-    
-  const newItem: InvoiceItem = {
-      serialNumber: product.serialNumber,
-      name: product.name, 
-      price: product.price,
-      quantity: 1,
-      discount: 0,
-    };
-    
-    this.invoice.products.push(newItem);
+    this.invoice = this.invoiceService.addProductToInInvoice(product, this.invoice);
     this.calculateTotal();
-  }
-
-  removeProductFromInvoice(index: number): void {
-    this.invoice.products.splice(index, 1);
-    this.calculateTotal();
-  }
-
-  isProductInInvoice(product: Product): boolean {
-    return this.invoice.products.some(item => item.serialNumber === product.serialNumber);
   }
 
   getItemTotal(item: InvoiceItem): number {
-    const discountMultiplier = (100 - (item.discount || 0)) / 100;
-    return item.price * item.quantity * discountMultiplier;
+    return this.invoiceService.getItemTotal(item);
+  }
+
+  removeProductFromInvoice(index: number): void {
+    this.invoice = this.invoiceService.removeProductFromInvoice(index, this.invoice);
+    this.calculateTotal();
+  }
+
+  isProductInInvoice(product: Product, invoice: Invoice): boolean{
+    return this.invoiceService.isProductInInvoice(product, invoice)
   }
 
   calculateTotal(): void {
-    this.invoiceTotal = this.invoice.products.reduce((total, item) => {
-      return total + this.getItemTotal(item);
-    }, 0);
+    this.invoiceTotal = this.invoiceService.calculateTotal(this.invoice);
   }
 
   isFormValid(): boolean {
-    return this.invoice.nf.trim() !== '' && 
-           this.invoice.products.length > 0 && 
-           (this.invoice.type === 'IN' || this.invoice.type === 'OUT');
+    return this.invoiceService.isFormValid(this.invoice);
   }
 
   navigateToProductRegister(): void {
@@ -129,23 +100,19 @@ export class InvoiceRegisterComponent implements OnInit {
         error: (error) => {
           let errorMsg = `Erro ao criar nota fiscal, tente novamente...\nStatus: ${this.invoice.status}`
           if (error.error && error.error.includes('estoque insuficiente')) {
-            errorMsg = 'Estoque insuficiente para realizar a transação';
+            errorMsg = `Estoque insuficiente para realizar a transação\n${this.invoice.status}`;
           }
           alert(errorMsg)
           console.error('erro criando nf: ', error);
           console.log('nf: ', this.invoice);
         }
-      })
+      });
     }
     catch(e) {
       console.error('erro ao enviar nf: ', e)
     }
   }
   resetForm() {
-    this.invoice = {
-      nf: '',
-      products: [],
-      type: 'OUT'
-    };
+    this.invoice = this.invoiceService.getDefaultInvoice();
   }
 }

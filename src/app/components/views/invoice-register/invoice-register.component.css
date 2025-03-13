@@ -174,6 +174,15 @@
     margin-top: 20px;
   }
   
+  input[type="number"], input[type="text"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #1a2a36;
+    border-radius: 4px;
+    background-color: #36546b;
+    color: #EDF4F7;
+  }
+
   ::ng-deep .input-conainer label {
     color: #EDF4F7;
   }

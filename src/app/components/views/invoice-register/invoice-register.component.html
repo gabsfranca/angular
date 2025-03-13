@@ -57,7 +57,7 @@
                 <button 
                   type="button" 
                   (click)="addProductToInvoice(product)"
-                  [disabled]="isProductInInvoice(product)">
+                  [disabled]="isProductInInvoice(product, invoice)">
                   Adicionar
                 </button>
               </td>
@@ -104,7 +104,7 @@
                   [(ngModel)]="item.discount" 
                   (change)="calculateTotal()">%
               </td>
-              <td>{{ getItemTotal(item) | currency:'BRL' }}</td>
+              <td>{{ invoiceTotal | currency:'BRL' }}</td>
               <td>
                 <button type="button" class="btn-remove" (click)="removeProductFromInvoice(i)">
                   Remover

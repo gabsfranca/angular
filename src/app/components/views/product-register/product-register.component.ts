@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { InputComponent } from '../../input/input.component';
 import { Product } from '../../../shared/models/product';
 import { ProductsService } from '../../../shared/services/products.service';
+import { Invoice } from '../../../shared/models/invoice';
+import { InvoiceService } from '../../../shared/services/invoice.service';
 
 
 @Component({
@@ -24,10 +26,13 @@ export class ProductRegisterComponent {
       currentStock: 0
     };
 
+  invoice: Invoice;
+
   constructor(
     private productsService: ProductsService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private invoiceService: InvoiceService
+  ) { this.invoice = this.invoiceService.getDefaultInvoice() }
 
   onSubmit() {
     this.product.price = Number(this.product.price)
@@ -57,6 +62,10 @@ export class ProductRegisterComponent {
       price: 0,
       currentStock: 0
     };
+  }
+
+  isProductInInvoice(product: Product): boolean {
+    return this.invoiceService.isProductInInvoice(product, this.invoice);
   }
 
   navigateToInvoiceRegister(): void {
